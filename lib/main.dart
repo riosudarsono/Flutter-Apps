@@ -1,10 +1,41 @@
-// import 'dart:ffi';
+
 
 import 'package:flutter/material.dart';
-import 'secondPage/second_page.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_test_1/ui/remotePage/remote_page.dart';
+import 'app/di/injector.dart';
+import 'app/theme/app_theme_provider.dart';
+import 'app/language/language_manager.dart';
+import 'app/utils/constants.dart';
 
-void main() {
-  runApp(MyApp());
+import 'ui/secondPage/second_page.dart';
+import 'ui/localPage/local_page.dart';
+
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await EasyLocalization.ensureInitialized();
+
+  await initializeDependencies();
+  FlutterNativeSplash.removeAfter(initialization);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(
+      EasyLocalization(
+          supportedLocales: LanguageManager.instance!.supportedLocales,
+          path: LANGUAGE_ASSETS_PATH,
+          startLocale: LanguageManager.instance!.enLocale,
+          child: MyApp()),
+    );
+  });
+  // runApp(MyApp());
+}
+
+Future initialization(BuildContext? context) async {
+  await Future.delayed(const Duration(seconds: 2));
 }
 
 class MyApp extends StatefulWidget {
@@ -17,9 +48,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: true,
-      home: MainPage(),
+    return MultiProvider(
+      providers: [
+          ChangeNotifierProvider(create: (_) => AppThemeProvider()),
+        ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: true,
+        home: MainPage(),
+      ),
     );
   }
 }
@@ -48,33 +84,58 @@ class _MainPageState extends State<MainPage> {
                 width: double.infinity,
                 height: double.infinity,
                 color: Colors.grey,
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              onPrimary: Colors.blue,
+                              primary: Colors.white,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      const SecondPage(),
+                                ),
+                              );
+                            },
+                            child: Text(buttonName),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              buttonName = 'Clicked';
+                            });
+                          },
+                          child: Text(buttonName),
+                        ),
+                      ],
+                    ),
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        onPrimary: Colors.blue,
-                        primary: Colors.white,
-                      ),
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                const SecondPage(),
+                                const LocalPage(),
                           ),
                         );
                       },
-                      child: Text(buttonName),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          buttonName = 'Clicked';
-                        });
-                      },
-                      child: Text(buttonName),
-                    ),
+                      child: Text('Local'),
+                    ),ElevatedButton(onPressed: (){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const RemotePage(),
+                          ),
+                        );
+                    }, child: Text('Remote'),)
                   ],
                 ),
               )
@@ -110,5 +171,3 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
-
-

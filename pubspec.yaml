@@ -37,11 +37,34 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  # hive: ^2.2.3
+  # hive_flutter: ^1.1.0
+
+  get_it: ^7.2.0
+  retrofit: ^3.0.1+1
+  dio: ^4.0.6
+  logger: ^1.1.0
+  equatable: ^2.0.3
+  #flutter_bloc: ^8.0.1
+  json_annotation: ^4.5.0
+  hive: ^2.2.1
+  go_router: ^3.1.0
+  flutter_native_splash: ^2.2.2
+  provider: ^6.0.3
+  stacked: ^2.3.8
+  #stacked_themes: ^0.3.8+1
+  infinite_scroll_pagination: ^3.2.0
+  flutter_switch: ^0.3.2
+  shared_preferences: ^2.0.15
+  easy_localization: ^3.0.1
+  url_launcher: ^6.1.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  # flutter_launcher_icons: "^0.10.0"
+  hive_generator: ^1.1.3
+  build_runner: ^2.1.11
+  retrofit_generator: ^4.0.1
 
 flutter_icons:
   android: "launcher_icon"
