@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +18,7 @@ Future main() async {
   await EasyLocalization.ensureInitialized();
 
   await initializeDependencies();
-  FlutterNativeSplash.removeAfter(initialization);
+  // FlutterNativeSplash.removeAfter(initialization);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(
@@ -132,7 +130,7 @@ class _MainPageState extends State<MainPage> {
                       Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                const RemotePage(),
+                                const CharactersScreen(),
                           ),
                         );
                     }, child: Text('Remote'),)

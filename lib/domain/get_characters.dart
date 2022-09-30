@@ -24,9 +24,9 @@ class GetCharacters
         params.options,
       );
 
-      if (httpResponse.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(httpResponse.data.results.toCharacterDtoList());
-      }
+      // if (httpResponse.response.statusCode == HttpStatus.ok) {
+      //   return DataSuccess(httpResponse.data.results.toCharacterDtoList());
+      // }
       return DataFailed(httpResponse.response.statusMessage);
     } on DioError catch (e) {
       final errorMessage = DioException.fromDioError(e).toString();

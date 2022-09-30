@@ -40,7 +40,7 @@ class CharactersViewModel extends BaseViewModel {
         hasMore = false;
         setBusyForObject(charactersBusyKey, false);
       } else {
-        _characters.addAll(list);
+        // _characters.addAll(list);
         _page++;
         _setViewState(ViewState.complete(_characters));
       }
